@@ -14,7 +14,7 @@ function setup_user() {
 
 edit_sshd_config() {
   echo "editing the sshd config file"
-  file="/etc/ssh/sshd_config"  # Define the file to edit.
+  file="/etc/ssh/sshd_config"  
   for PARAM in "${param[@]}"
   do
     /usr/bin/sed -i "/^${PARAM}/d" "$file"
@@ -114,11 +114,11 @@ EOF
     echo "Reverse proxy setup complete."
 }
 
-setup_user
+# setup_user
 
-# param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
-# param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
-# edit_sshd_config
+param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
+param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
+edit_sshd_config
 
 # reload_sshd_config
 
