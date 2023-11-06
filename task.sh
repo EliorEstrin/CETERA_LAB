@@ -26,10 +26,16 @@ edit_sshd_config() {
   done
 }
 
+reload_sshd_config() {
+   systemctl reload sshd.service
+   echo "Run 'systemctl reload sshd.service'...OK"
+}
+
 # Usage of the function should define both the parameters to be deleted and the full lines to be added
-param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
-param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
-edit_sshd_config
+# param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
+# param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
+# edit_sshd_config
 
 
+reload_sshd
 
