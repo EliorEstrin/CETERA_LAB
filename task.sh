@@ -40,13 +40,24 @@ setup_and_activate_firewall_rules(){
   firewall-cmd --permanent --add-service=https
   firewall-cmd --permanent --add-service=dns
   firewall-cmd --permanent --add-service=ntp
-  firewall-cmd --permanent --add-service=rsync
+  # Rsync
+  firewall-cmd --permanent --add-port=873/tcp
   firewall-cmd --reload
   echo "Firewall configuration completed."
 
 }
 
-
+setup_docker(){
+  yum install -y yum-utils
+  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  # docker post install
+  groupadd docker
+  usermod -aG docker ctera
+  usermod -aG docker centos
+  newgrp docker
+  systemctl start docker && systemctl enable docker
+}
 
 # Usage of the function should define both the parameters to be deleted and the full lines to be added
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
@@ -56,3 +67,4 @@ setup_and_activate_firewall_rules(){
 # reload_sshd_config
 
 setup_and_activate_firewall_rules
+setup_docker
