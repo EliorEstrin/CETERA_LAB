@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Add logging later
 exec > >(tee -i setup.log)
 exec 2>&1
 
 require_sudo() {
     if [ "$(id -u)" != "0" ]; then
-        echo "This script must be run as root or with sudo privileges!" >&2
+        echo "This script must be run as root!" >&2
         exit 1
     fi
 }
@@ -125,16 +124,16 @@ EOF
 }
 
 require_sudo
-setup_user
-param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
-param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
-edit_sshd_config
-reload_sshd_config
-setup_and_activate_firewall_rules
-setup_docker
-pull_nginx
-remove_obsolet_rpm
-update_system
-install_rpm_from_dkpg_folder
-setup_webserver
-setup_reverse_proxy
+# setup_user
+# param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
+# param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
+# edit_sshd_config
+# reload_sshd_config
+# setup_and_activate_firewall_rules
+# setup_docker
+# pull_nginx
+# remove_obsolet_rpm
+# update_system
+# install_rpm_from_dkpg_folder
+# setup_webserver
+# setup_reverse_proxy
