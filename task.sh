@@ -79,6 +79,15 @@ update_system(){
   echo "System updated."
 }
 
+install_rpm_from_dkpg_folder(){
+  if [ -d pkgs ]; then
+    echo "Installing RPM packages from pkgs directory..."
+    yum install -y pkgs/*.rpm
+  else
+    echo "pkgs directory does not exist, skipping custom package installation."
+  fi
+}
+
 # Usage of the function should define both the parameters to be deleted and the full lines to be added
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 # param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
@@ -88,6 +97,7 @@ update_system(){
 
 # setup_and_activate_firewall_rules
 # setup_docker
-pull_nginx
-remove_obsolet_rpm
-update_system
+# pull_nginx
+# remove_obsolet_rpm
+# update_system
+install_rpm_from_dkpg_folder
