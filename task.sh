@@ -127,7 +127,7 @@ EOF
 }
 
 require_sudo
-# setup_user
+setup_user
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 # param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
 # edit_sshd_config
