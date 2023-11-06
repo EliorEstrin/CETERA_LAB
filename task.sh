@@ -89,7 +89,7 @@ setup_docker(){
 
 pull_nginx(){
   echo "Pulling nginx image"
-  docker pull nginx && echo "image was pulled sucessfully"
+  docker pull nginx && echo "Nginx image was pulled sucessfully"
 }
 
 remove_obsolet_rpm(){
@@ -150,8 +150,8 @@ reload_sshd_config
 setup_and_activate_firewall_rules
 setup_docker
 pull_nginx
-# remove_obsolet_rpm
+remove_obsolet_rpm
 # update_system
-# install_rpm_from_dkpg_folder
+install_rpm_from_dkpg_folder
 # setup_webserver
 # setup_reverse_proxy
