@@ -132,9 +132,9 @@ require_sudo
 # reload_sshd_config
 # setup_and_activate_firewall_rules
 # setup_docker
-# pull_nginx
+pull_nginx
 # remove_obsolet_rpm
-# update_system
+update_system
 # install_rpm_from_dkpg_folder
-# setup_webserver
-# setup_reverse_proxy
+setup_webserver
+setup_reverse_proxy
