@@ -141,7 +141,7 @@ param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "Authorized
 edit_sshd_config
 reload_sshd_config
 
-# setup_and_activate_firewall_rules
+setup_and_activate_firewall_rules
 # setup_docker
 # pull_nginx
 # remove_obsolet_rpm
