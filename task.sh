@@ -125,16 +125,16 @@ EOF
 }
 
 require_sudo
-# setup_user
-# param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
-# param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
-# edit_sshd_config
-# reload_sshd_config
-# setup_and_activate_firewall_rules
-# setup_docker
+setup_user
+param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
+param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
+edit_sshd_config
+reload_sshd_config
+setup_and_activate_firewall_rules
+setup_docker
 pull_nginx
-# remove_obsolet_rpm
+remove_obsolet_rpm
 update_system
-# install_rpm_from_dkpg_folder
+install_rpm_from_dkpg_folder
 setup_webserver
 setup_reverse_proxy
