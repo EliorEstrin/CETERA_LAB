@@ -3,11 +3,14 @@
 exec > >(tee -i setup.log)
 exec 2>&1
 
+
+
 require_sudo() {
     if [ "$(id -u)" != "0" ]; then
         echo "This script must be run as root!" >&2
         exit 1
     fi
+    echo "Starting Script Execution"
 }
 
 
