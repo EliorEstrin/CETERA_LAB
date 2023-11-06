@@ -59,14 +59,10 @@ setup_docker(){
   groupadd docker
   usermod -aG docker ctera
   usermod -aG docker centos
-  newgrp docker
-  sleep 5 
-  # systemctl start docker && systemctl enable docker
+  echo "Starting docker"
+  systemctl start docker && systemctl enable docker
 }
 
-start_docker() {
-  service docker start
-}
 
 pull_nginx(){
   echo "Pulling nginx image"
@@ -127,7 +123,6 @@ setup_user
 # reload_sshd_config
 # setup_and_activate_firewall_rules
 setup_docker
-start_docker
 # pull_nginx
 # remove_obsolet_rpm
 # update_system
