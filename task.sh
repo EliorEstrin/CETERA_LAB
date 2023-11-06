@@ -17,8 +17,8 @@ require_sudo() {
 # Create ctera group and user
 function setup_user() { 
   echo "Creating group and user 'ctera'..."
-  adduser ctera && echo "created user ctera" 
-  usermod -aG wheel,ctera ctera && echo "added user cetera to wheel group"
+  adduser ctera && echo "created user ctera" || echo "failed to create user"
+  usermod -aG wheel,ctera ctera && echo "added user cetera to wheel group" || echo "failed to add user to group"
 }
 
 
@@ -36,11 +36,18 @@ edit_sshd_config() {
     echo "$PARAM_VALUE" >> "$file"
     echo "'$PARAM_VALUE' was added to $file."
   done
+
+  # Check if sshd conf is Valid
+  if ! /usr/sbin/sshd -t -f "$file"; then
+      echo "There was a syntax error in the sshd_config file! Continuing with the script anyway..."
+    else
+      echo "sshd_config file was edited and is valid."
+    fi
+
 }
 
 reload_sshd_config() {
-   systemctl reload sshd.service
-   echo "restarted 'systemctl reload sshd.service'...OK"
+   systemctl reload sshd.service && echo "restarted 'systemctl reload sshd.service'...OK" || echo "Failed to reload 'sshd.service'."
 }
 
 setup_and_activate_firewall_rules(){
@@ -55,7 +62,7 @@ setup_and_activate_firewall_rules(){
   firewall-cmd --permanent --add-service=ntp
   # Rsync
   firewall-cmd --permanent --add-port=873/tcp
-  firewall-cmd --reload
+  firewall- cmd --reload && echo "Fire rules are active"
   echo "Firewall configuration completed."
 
 }
@@ -128,8 +135,8 @@ EOF
 
 require_sudo
 setup_user
-# param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
-# param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
+param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
+param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
 # edit_sshd_config
 # reload_sshd_config
 # setup_and_activate_firewall_rules
