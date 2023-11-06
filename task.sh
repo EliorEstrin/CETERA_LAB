@@ -88,6 +88,28 @@ install_rpm_from_dkpg_folder(){
   fi
 }
 
+
+setup_webserver(){
+  echo "Setting up web server..."
+  
+  docker network create webnet
+  echo "hello world!" > index.html
+  docker run -d --name webapp --network webnet -v "$PWD/index.html:/usr/share/nginx/html/index.html:ro" nginx
+}
+
+setup_reverse_proxy(){
+    cat > default.conf <<EOF
+    server {
+        listen 80;
+        location /app {
+            proxy_pass http://webapp;
+        }
+    }
+EOF
+
+    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf:ro" -p 80:80 nginx
+    echo "Reverse proxy setup complete."
+}
 # Usage of the function should define both the parameters to be deleted and the full lines to be added
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 # param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
@@ -100,4 +122,6 @@ install_rpm_from_dkpg_folder(){
 # pull_nginx
 # remove_obsolet_rpm
 # update_system
-install_rpm_from_dkpg_folder
+# install_rpm_from_dkpg_folder
+setup_webserver
+setup_reverse_proxy
