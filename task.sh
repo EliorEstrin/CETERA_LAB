@@ -31,11 +31,28 @@ reload_sshd_config() {
    echo "Run 'systemctl reload sshd.service'...OK"
 }
 
+setup_and_activate_firewall_rules(){
+  yum install -y firewalld
+  systemctl start firewalld
+  # Consider enabling
+  echo "Adding firewall rules for HTTP, HTTPS, DNS, NTP, and Rsync..."
+  firewall-cmd --permanent --add-service=http
+  firewall-cmd --permanent --add-service=https
+  firewall-cmd --permanent --add-service=dns
+  firewall-cmd --permanent --add-service=ntp
+  firewall-cmd --permanent --add-service=rsync
+  firewall-cmd --reload
+  echo "Firewall configuration completed."
+
+}
+
+
+
 # Usage of the function should define both the parameters to be deleted and the full lines to be added
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 # param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
 # edit_sshd_config
 
+# reload_sshd_config
 
-reload_sshd_config
-
+setup_and_activate_firewall_rules
