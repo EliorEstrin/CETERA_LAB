@@ -64,7 +64,7 @@ setup_docker(){
   # systemctl start docker && systemctl enable docker
 }
 
-start_docker{
+start_docker() {
   service docker start
 }
 
