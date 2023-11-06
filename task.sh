@@ -60,6 +60,7 @@ setup_docker(){
   usermod -aG docker ctera
   usermod -aG docker centos
   newgrp docker
+  sleep 5 
   systemctl start docker && systemctl enable docker
 }
 
