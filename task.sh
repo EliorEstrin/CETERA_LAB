@@ -122,7 +122,7 @@ setup_webserver(){
   echo "Setting up web server..."
   docker network create webnet
   echo "hello world!" > index.html
-  docker run -d --name webapp --network webnet -v "$PWD/index.html:/usr/share/nginx/html/index.html" nginx
+  docker run -d --name webapp --network webnet -v "$PWD/index.html:/usr/share/nginx/html/index.html" nginx && echo "web server is up and running" || echo "docker failed to intsall web server"
 }
 
 setup_reverse_proxy(){
@@ -135,8 +135,7 @@ setup_reverse_proxy(){
     }
 EOF
 
-    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf" -p 80:80 nginx
-    echo "Reverse proxy setup complete."
+    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf" -p 80:80 nginx && echo "Reverse proxy setup complete." || echo "reverse proxy setup failed"
 }
 
 require_sudo
@@ -153,5 +152,5 @@ pull_nginx
 remove_obsolet_rpm
 # update_system
 install_rpm_from_dkpg_folder
-# setup_webserver
-# setup_reverse_proxy
+setup_webserver
+setup_reverse_proxy
