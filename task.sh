@@ -61,7 +61,8 @@ setup_docker(){
   usermod -aG docker centos
   newgrp docker
   sleep 5 
-  systemctl start docker && systemctl enable docker
+  service docker start
+  # systemctl start docker && systemctl enable docker
 }
 
 pull_nginx(){
