@@ -1,17 +1,20 @@
 #!/bin/bash
 
 # Add logging later
+exec > >(tee -i setup.log)
+exec 2>&1
 
 # Create ctera group and user
 function setup_user() { 
-adduser ctera && echo "created user"
-groupadd ctera
-usermod -aG wheel,ctera ctera
+  echo "Creating group and user 'ctera'..."
+  adduser ctera 
+  groupadd ctera
+  usermod -aG wheel,ctera ctera
 }
 
 
-# edit sshd_config
 edit_sshd_config() {
+  echo "editing the sshd config file"
   file="/etc/ssh/sshd_config"  # Define the file to edit.
   for PARAM in "${param[@]}"
   do
@@ -48,6 +51,7 @@ setup_and_activate_firewall_rules(){
 }
 
 setup_docker(){
+  echo "installing Docker"
   yum install -y yum-utils
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -60,6 +64,7 @@ setup_docker(){
 }
 
 pull_nginx(){
+  echo "Pulling nginx image"
   docker pull nginx
 }
 
@@ -91,10 +96,9 @@ install_rpm_from_dkpg_folder(){
 
 setup_webserver(){
   echo "Setting up web server..."
-  
   docker network create webnet
   echo "hello world!" > index.html
-  docker run -d --name webapp --network webnet -v "$PWD/index.html:/usr/share/nginx/html/index.html:ro" nginx
+  docker run -d --name webapp --network webnet -v "$PWD/index.html:/usr/share/nginx/html/index.html" nginx
 }
 
 setup_reverse_proxy(){
@@ -107,21 +111,23 @@ setup_reverse_proxy(){
     }
 EOF
 
-    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf:ro" -p 80:80 nginx
+    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf" -p 80:80 nginx
     echo "Reverse proxy setup complete."
 }
-# Usage of the function should define both the parameters to be deleted and the full lines to be added
-# param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
-# param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
-# edit_sshd_config
 
-# reload_sshd_config
+setup_user
 
-# setup_and_activate_firewall_rules
-# setup_docker
-# pull_nginx
-# remove_obsolet_rpm
+param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
+param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
+edit_sshd_config
+
+reload_sshd_config
+
+setup_and_activate_firewall_rules
+setup_docker
+pull_nginx
+remove_obsolet_rpm
 # update_system
-# install_rpm_from_dkpg_folder
+install_rpm_from_dkpg_folder
 setup_webserver
 setup_reverse_proxy
