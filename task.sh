@@ -71,13 +71,19 @@ setup_docker(){
   echo "installing Docker"
   yum install -y yum-utils
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
+  if [ $? -ne 0 ]; then
+    echo "Failed to install Docker Engine and its components."
+  else
+    echo "Docker was installed"
+  fi
+
   # docker post install
   groupadd docker
   usermod -aG docker ctera
   usermod -aG docker centos
   echo "Starting docker"
-  systemctl start docker && systemctl enable docker
+  systemctl start docker && systemctl enable docker && echo "docker process started and enabled"
 }
 
 
@@ -142,7 +148,7 @@ edit_sshd_config
 reload_sshd_config
 
 setup_and_activate_firewall_rules
-# setup_docker
+setup_docker
 # pull_nginx
 # remove_obsolet_rpm
 # update_system
