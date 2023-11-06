@@ -135,10 +135,12 @@ EOF
 
 require_sudo
 setup_user
+
 param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
-# edit_sshd_config
+edit_sshd_config
 # reload_sshd_config
+
 # setup_and_activate_firewall_rules
 # setup_docker
 # pull_nginx
