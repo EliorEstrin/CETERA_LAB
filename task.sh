@@ -62,7 +62,7 @@ setup_and_activate_firewall_rules(){
   firewall-cmd --permanent --add-service=ntp
   # Rsync
   firewall-cmd --permanent --add-port=873/tcp
-  firewall- cmd --reload && echo "Fire rules are active"
+  firewall-cmd --reload && echo "Firewall rules are active"
   echo "Firewall configuration completed."
 
 }
