@@ -4,6 +4,14 @@
 exec > >(tee -i setup.log)
 exec 2>&1
 
+require_sudo() {
+    if [ "$(id -u)" != "0" ]; then
+        echo "This script must be run as root or with sudo privileges!" >&2
+        exit 1
+    fi
+}
+
+
 # Create ctera group and user
 function setup_user() { 
   echo "Creating group and user 'ctera'..."
@@ -107,7 +115,7 @@ setup_reverse_proxy(){
     server {
         listen 80;
         location /app {
-            proxy_pass http://webapp;
+            proxy_pass http://webapp/;
         }
     }
 EOF
@@ -116,13 +124,14 @@ EOF
     echo "Reverse proxy setup complete."
 }
 
-setup_user
+require_sudo
+# setup_user
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 # param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
 # edit_sshd_config
 # reload_sshd_config
 # setup_and_activate_firewall_rules
-setup_docker
+# setup_docker
 # pull_nginx
 # remove_obsolet_rpm
 # update_system
