@@ -104,8 +104,7 @@ remove_obsolet_rpm(){
 
 update_system(){
   echo "Updating system..."
-  yum update -y
-  echo "System updated."
+  yum update -y && echo "System updated." || echo "yum update failed"
 }
 
 install_rpm_from_dkpg_folder(){
@@ -146,11 +145,13 @@ param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "Authorized
 edit_sshd_config
 reload_sshd_config
 
+update_system
+
 setup_and_activate_firewall_rules
+remove_obsolet_rpm
+install_rpm_from_dkpg_folder
+
 setup_docker
 pull_nginx
-remove_obsolet_rpm
-# update_system
-install_rpm_from_dkpg_folder
 setup_webserver
 setup_reverse_proxy
