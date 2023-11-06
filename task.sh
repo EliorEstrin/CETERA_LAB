@@ -37,5 +37,5 @@ reload_sshd_config() {
 # edit_sshd_config
 
 
-reload_sshd
+reload_sshd_config
 
