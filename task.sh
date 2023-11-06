@@ -50,13 +50,33 @@ setup_and_activate_firewall_rules(){
 setup_docker(){
   yum install -y yum-utils
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   # docker post install
   groupadd docker
   usermod -aG docker ctera
   usermod -aG docker centos
   newgrp docker
   systemctl start docker && systemctl enable docker
+}
+
+pull_nginx(){
+  docker pull nginx
+}
+
+remove_obsolet_rpm(){
+  if [ -f obsolete.txt ]; then
+      echo "Removing obsolete RPM packages..."
+      xargs yum remove -y < obsolete.txt
+  else
+      echo "No obsolete.txt file found, skipping package removal."
+  fi
+
+}
+
+update_system(){
+  echo "Updating system..."
+  yum update -y
+  echo "System updated."
 }
 
 # Usage of the function should define both the parameters to be deleted and the full lines to be added
@@ -66,5 +86,8 @@ setup_docker(){
 
 # reload_sshd_config
 
-setup_and_activate_firewall_rules
-setup_docker
+# setup_and_activate_firewall_rules
+# setup_docker
+pull_nginx
+remove_obsolet_rpm
+update_system
