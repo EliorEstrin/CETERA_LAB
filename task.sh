@@ -118,18 +118,15 @@ EOF
 }
 
 setup_user
-
 # param=("PasswordAuthentication" "PubkeyAuthentication" "AuthorizedKeysFile")
 # param_values=("PasswordAuthentication no" "PubkeyAuthentication yes" "AuthorizedKeysFile .ssh/authorized_keys")
 # edit_sshd_config
-
 # reload_sshd_config
-
 # setup_and_activate_firewall_rules
 setup_docker
 # pull_nginx
 # remove_obsolet_rpm
-# # update_system
+# update_system
 # install_rpm_from_dkpg_folder
 # setup_webserver
 # setup_reverse_proxy
