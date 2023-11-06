@@ -135,7 +135,7 @@ setup_reverse_proxy(){
     }
 EOF
 
-    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf" -p 80:80 nginx && echo "Reverse proxy setup complete." || echo "reverse proxy setup failed"
+    docker run -d --name nginx-proxy --network webnet -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf" -p 80:80 nginx && echo "Reverse proxy setup complete. Check endpoint: localhost/app" || echo "reverse proxy setup failed" 
 }
 
 require_sudo
