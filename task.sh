@@ -17,8 +17,8 @@ require_sudo() {
 # Create ctera group and user
 function setup_user() { 
   echo "Creating group and user 'ctera'..."
-  adduser ctera 
-  usermod -aG wheel,ctera ctera
+  adduser ctera && echo "created user ctera" 
+  usermod -aG wheel,ctera ctera && echo "added user cetera to wheel group"
 }
 
 
